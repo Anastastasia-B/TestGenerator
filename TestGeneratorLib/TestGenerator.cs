@@ -6,7 +6,13 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace TestGeneratorLib
 {
-    class TestGenerator
+    public static class TestGenerator
     {
+        public static string Generate(string content)
+        {
+            SyntaxNode root = CSharpSyntaxTree.ParseText(content).GetRoot();
+            TestCreator testCreator = new TestCreator(root);
+            return testCreator.GetTest();
+        }
     }
 }

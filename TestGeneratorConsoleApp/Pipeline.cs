@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using TestGeneratorLib;
 using TestGeneratorConsoleApp.IO;
-using System.Threading;
 
 namespace TestGeneratorConsoleApp
 {
@@ -41,19 +40,19 @@ namespace TestGeneratorConsoleApp
         private async Task<File> ReadFile(string filePath)
         {
             File file = new File(FileFolder, filePath);
-            await Task.Run(() => Thread.Sleep(8000));
+            await file.ReadFromFile(filePath);
             return file;
         }
 
         private async Task<File> GenerateTest(File file)
         {
-            await Task.Run(() => Thread.Sleep(8000));
+            file.FileContent = await Task.Run(() => TestGenerator.Generate(file.FileContent));
             return file;
         }
 
         private async Task WriteFile(File file)
         {
-            await Task.Run(() => Thread.Sleep(8000));
+            await file.Write();
         }
     }
 }
